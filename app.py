@@ -62,11 +62,43 @@ if check_password():
             size = result.iloc[0]['サイズ']
             wise = result.iloc[0]['足囲区分']
             
-            # 演出：一瞬だけ「判定中...」と出す
             with st.spinner('判定中...'):
                 time.sleep(0.5) 
 
-           -size: 18px; color: #0d47a1; margin-left: 3px;">cm</span>
+            st.write("### 判定結果")
+            
+            col1, col2 = st.columns(2, gap="small")
+            
+            box_base = """
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                height: 140px;
+                width: 100%;
+                margin: 0 auto 10px auto;
+                border-radius: 15px;
+                border: 2px solid #1e88e5;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                box-sizing: border-box;
+            """
+            
+            value_container = """
+                display: flex; 
+                justify-content: center; 
+                align-items: baseline; 
+                width: 100%;
+                text-align: center;
+            """
+
+            with col1:
+                st.markdown(f"""
+                    <div style="{box_base} background-color: #e6f3ff;">
+                        <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">推奨サイズ</p>
+                        <div style="{value_container}">
+                            <span style="font-size: 38px; color: #0d47a1; font-weight: bold; line-height: 1;">{size}</span>
+                            <span style="font-size: 18px; color: #0d47a1; margin-left: 3px;">cm</span>
                         </div>
                     </div>
                 """, unsafe_allow_html=True)
@@ -81,6 +113,7 @@ if check_password():
                     </div>
                 """, unsafe_allow_html=True)
             
+            st.balloons()
         else:
             st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
 
