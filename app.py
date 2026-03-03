@@ -55,27 +55,33 @@ if check_password():
 
         st.divider()
 
-        # 5. 結果表示
-        if not result.empty:
-            size = result.iloc[0]['サイズ']
-            wise = result.iloc[0]['足囲区分']
+# 5. 結果表示（横並びデザイン）
+            st.write("### 判定結果")
             
-            # 演出（スピンさせてからバルーン！）
-            with st.spinner('判定中...'):
-                import time
-                time.sleep(0.5) 
+            # 2つのカラム（列）を作成
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.markdown(f"""
+                    <div style="text-align: center; background-color: #e6f3ff; padding: 20px; border-radius: 15px; border: 2px solid #1e88e5;">
+                        <p style="margin: 0; font-size: 14px; color: #1e88e5;">推奨サイズ</p>
+                        <h1 style="margin: 5px 0; font-size: 40px; color: #0d47a1;">{size}<span style="font-size: 18px;">cm</span></h1>
+                    </div>
+                """, unsafe_allow_html=True)
 
-            st.markdown(f"""
-                <div style="text-align: center; background-color: #e6f3ff; padding: 30px; border-radius: 15px; border: 2px solid #1e88e5; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    <p style="margin: 0; font-size: 18px; color: #1e88e5; font-weight: bold;">あなたの推奨サイズ</p>
-                    <h1 style="margin: 10px 0; font-size: 64px; color: #0d47a1; line-height: 1;">{size}<span style="font-size: 28px;">cm</span></h1>
-                    <h2 style="margin: 0; font-size: 42px; color: #1565c0;">ワイズ: {wise}</h2>
-                </div>
-            """, unsafe_allow_html=True)
+            with col2:
+                st.markdown(f"""
+                    <div style="text-align: center; background-color: #f0f8ff; padding: 20px; border-radius: 15px; border: 2px solid #1e88e5;">
+                        <p style="margin: 0; font-size: 14px; color: #1e88e5;">ワイズ</p>
+                        <h1 style="margin: 5px 0; font-size: 40px; color: #0d47a1;">{wise}</h1>
+                    </div>
+                """, unsafe_allow_html=True)
+            
             st.balloons()
         else:
             st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
     st.caption("※この判定はJIS規格に基づいた目安です。靴の木型によってフィット感は異なります。")
+
 
 
 
