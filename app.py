@@ -87,8 +87,8 @@ if check_password():
                     </div>
                 """, unsafe_allow_html=True)
             
-            st.balloons() # 成功のバルーン
         else:
             st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
 
     st.caption("※JIS規格に基づいた目安です。実際のフィット感は靴の木型により異なります。")
+
