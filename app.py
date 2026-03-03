@@ -35,8 +35,8 @@ if check_password():
     # 入力エリア
     st.sidebar.header("入力項目")
     gender = st.sidebar.selectbox("性別", ["男性", "女性"])
-    foot_length = st.sidebar.number_input("足長 (mm)", value=230.0, step=1.0)
-    foot_circ = st.sidebar.number_input("足囲 (mm)", value=220.0, step=1.0)
+    foot_length = st.sidebar.number_input("足長 (mm)", value=230, step=1, format="%d")
+    foot_circ = st.sidebar.number_input("足囲 (mm)", value=220, step=1, format="%d")
 
     # 判定ロジック
     result = df[
@@ -52,3 +52,4 @@ if check_password():
         col2.metric("足囲区分 (ワイズ)", result.iloc[0]['足囲区分'])
     else:
         st.warning("該当するサイズが見つかりませんでした。数値を再確認してください。")
+
