@@ -48,9 +48,10 @@ if check_password():
     if not result.empty:
         st.success("判定結果")
         col1, col2 = st.columns(2)
-        col1.metric("判定サイズ", f"{result.iloc[0]['サイズ']} cm")
-        col2.metric("足囲区分 (ワイズ)", result.iloc[0]['足囲区分'])
+        col1.metric("あなたのサイズは", f"{result.iloc[0]['サイズ']} cm")
+        col2.metric("ワイズは", result.iloc[0]['足囲区分'])
     else:
         st.warning("該当するサイズが見つかりませんでした。数値を再確認してください。")
+
 
 
