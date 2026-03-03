@@ -5,7 +5,7 @@ import pandas as pd
 st.set_page_config(page_title="サイズ判定ツール", layout="centered")
 
 # 簡易パスワード設定
-PASSWORD = "your-password-here"
+PASSWORD = "CM32A"
 
 def check_password():
     if "password_correct" not in st.session_state:
@@ -71,3 +71,4 @@ if check_password():
         st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
 
     st.caption("※この判定はJIS規格に基づいた目安です。靴の木型によってフィット感は異なります。")
+
