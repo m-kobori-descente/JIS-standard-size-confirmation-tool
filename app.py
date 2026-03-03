@@ -26,11 +26,11 @@ if check_password():
 
     # データの読み込み
     try:
-    # まずは標準のUTF-8で試す
-    df = pd.read_csv("data.csv")
+    　　# まずは標準のUTF-8で試す
+    　　df = pd.read_csv("data.csv")
 except:
-    # 失敗したらExcel標準のShift-JIS(CP932)で試す
-    df = pd.read_csv("data.csv", encoding="cp932")
+    　　# 失敗したらExcel標準のShift-JIS(CP932)で試す
+   　　 df = pd.read_csv("data.csv", encoding="cp932")
         
         # 入力エリア
         st.sidebar.header("入力項目")
@@ -56,4 +56,5 @@ except:
     except Exception as e:
 
         st.error(f"エラーが発生しました: {e}")
+
 
