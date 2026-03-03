@@ -22,7 +22,7 @@ def check_password():
     return False
 
 if check_password():
-    st.title("👣 サイズ・ワイズ判定ツール")
+    st.title("👟 サイズ・ワイズ判定ツール 👣")
 
     # データの読み込み
     try:
@@ -52,6 +52,7 @@ if check_password():
         col2.metric("ワイズは", result.iloc[0]['足囲区分'])
     else:
         st.warning("該当するサイズが見つかりませんでした。数値を再確認してください。")
+
 
 
 
