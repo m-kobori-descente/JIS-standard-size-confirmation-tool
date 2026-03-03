@@ -66,9 +66,10 @@ if check_password():
             </div>
         """, unsafe_allow_html=True)
         
-        st.balloons() # 判定成功時に紙吹雪を飛ばす演出
+        st.snow() # 判定成功時に雪を降らせる演出
     else:
         st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
 
     st.caption("※この判定はJIS規格に基づいた目安です。靴の木型によってフィット感は異なります。")
+
 
