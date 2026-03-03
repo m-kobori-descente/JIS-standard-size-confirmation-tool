@@ -71,31 +71,37 @@ if check_password():
             
             col1, col2 = st.columns(2)
             
-            # ボックスの高さを揃え、中身を上下左右中央に配置するスタイル
+            # 左右・上下中央揃えを徹底するスタイル
             box_style = """
                 display: flex; 
                 flex-direction: column; 
                 justify-content: center; 
                 align-items: center; 
+                text-align: center; 
                 height: 150px; 
                 border-radius: 15px; 
                 border: 2px solid #1e88e5; 
                 box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                width: 100%;
             """
             
             with col1:
                 st.markdown(f"""
                     <div style="{box_style} background-color: #e6f3ff;">
-                        <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">推奨サイズ</p>
-                        <h1 style="margin: 5px 0; font-size: 40px; color: #0d47a1; line-height: 1.2;">{size}<span style="font-size: 18px;">cm</span></h1>
+                        <div style="width: 100%;">
+                            <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold; width: 100%;">推奨サイズ</p>
+                            <h1 style="margin: 5px 0 0 0; font-size: 40px; color: #0d47a1; line-height: 1.2; width: 100%;">{size}<span style="font-size: 18px;">cm</span></h1>
+                        </div>
                     </div>
                 """, unsafe_allow_html=True)
 
             with col2:
                 st.markdown(f"""
                     <div style="{box_style} background-color: #f0f8ff;">
-                        <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">ワイズ</p>
-                        <h1 style="margin: 5px 0; font-size: 40px; color: #0d47a1; line-height: 1.2;">{wise}</h1>
+                        <div style="width: 100%;">
+                            <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold; width: 100%;">ワイズ</p>
+                            <h1 style="margin: 5px 0 0 0; font-size: 40px; color: #0d47a1; line-height: 1.2; width: 100%;">{wise}</h1>
+                        </div>
                     </div>
                 """, unsafe_allow_html=True)
             
@@ -103,6 +109,7 @@ if check_password():
             st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
 
     st.caption("※JIS規格に基づいた目安です。実際のフィット感は靴の木型により異なります。")
+
 
 
 
