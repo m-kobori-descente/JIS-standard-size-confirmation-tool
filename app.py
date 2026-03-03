@@ -69,10 +69,10 @@ if check_password():
            # 5. 結果を横並びに表示
             st.write("### 判定結果")
             
-            # カラムの間隔を小さく設定
-            col1, col2 = st.columns(2)
+            # gap="small" を指定して、カラム間の余計な隙間を最小限にします
+            col1, col2 = st.columns(2, gap="small")
             
-            # ボックス全体のスタイル（Flexboxで中身を完全に制御）
+            # ボックス全体のスタイル（余計なパディングをリセットし、中身を絶対中央へ）
             box_style = """
                 display: flex;
                 flex-direction: column;
@@ -80,23 +80,24 @@ if check_password():
                 align-items: center;
                 text-align: center;
                 height: 140px;
-                margin-bottom: 10px;
+                width: 100%;
+                margin: 0 auto 10px auto;
                 border-radius: 15px;
                 border: 2px solid #1e88e5;
                 box-shadow: 0 2px 4px rgba(0,0,0,0.05);
                 box-sizing: border-box;
-                width: 100%;
+                overflow: hidden;
             """
             
-            # 文字（ラベルと数値）を包む内側のスタイル
-            inner_style = "width: 100%; display: block; text-align: center;"
+            # 文字を包むコンテナ（これを幅100%にすることで、text-align: centerを確実に効かせます）
+            inner_container = "width: 100%; padding: 0; margin: 0; text-align: center;"
 
             with col1:
                 st.markdown(f"""
                     <div style="{box_style} background-color: #e6f3ff;">
-                        <div style="{inner_style}">
-                            <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">あなたのサイズ</p>
-                            <h1 style="margin: 2px 0 0 0; font-size: 38px; color: #0d47a1; line-height: 1.1;">{size}<span style="font-size: 18px;">cm</span></h1>
+                        <div style="{inner_container}">
+                            <p style="margin: 0; padding: 0; font-size: 14px; color: #1e88e5; font-weight: bold; width: 100%;">推奨サイズ</p>
+                            <h1 style="margin: 5px 0 0 0; padding: 0; font-size: 38px; color: #0d47a1; line-height: 1; width: 100%;">{size}<span style="font-size: 18px;">cm</span></h1>
                         </div>
                     </div>
                 """, unsafe_allow_html=True)
@@ -104,9 +105,9 @@ if check_password():
             with col2:
                 st.markdown(f"""
                     <div style="{box_style} background-color: #f0f8ff;">
-                        <div style="{inner_style}">
-                            <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">ワイズ</p>
-                            <h1 style="margin: 2px 0 0 0; font-size: 38px; color: #0d47a1; line-height: 1.1;">{wise}</h1>
+                        <div style="{inner_container}">
+                            <p style="margin: 0; padding: 0; font-size: 14px; color: #1e88e5; font-weight: bold; width: 100%;">ワイズ</p>
+                            <h1 style="margin: 5px 0 0 0; padding: 0; font-size: 38px; color: #0d47a1; line-height: 1; width: 100%;">{wise}</h1>
                         </div>
                     </div>
                 """, unsafe_allow_html=True)
@@ -115,6 +116,7 @@ if check_password():
             st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
 
     st.caption("※JIS規格に基づいた目安です。実際のフィット感は靴の木型により異なります。")
+
 
 
 
