@@ -66,7 +66,6 @@ if check_password():
             with st.spinner('判定中...'):
                 time.sleep(0.5) 
 
-            st.write("### 判定結果")
             # 5. 結果を横並びに表示
             st.write("### 判定結果")
             
@@ -104,5 +103,6 @@ if check_password():
             st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
 
     st.caption("※JIS規格に基づいた目安です。実際のフィット感は靴の木型により異なります。")
+
 
 
