@@ -66,43 +66,7 @@ if check_password():
             with st.spinner('判定中...'):
                 time.sleep(0.5) 
 
-           # 5. 結果を横並びに表示
-            st.write("### 判定結果")
-            
-            # gapを"small"に修正（エラーを解消）
-            col1, col2 = st.columns(2, gap="small")
-            
-            # ボックス全体の共通スタイル
-            box_base = """
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-                height: 140px;
-                width: 100%;
-                margin: 0 auto 10px auto;
-                border-radius: 15px;
-                border: 2px solid #1e88e5;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-                box-sizing: border-box;
-            """
-            
-            # 数値と単位を横並びで中央寄せにするためのスタイル
-            value_container = """
-                display: flex; 
-                justify-content: center; 
-                align-items: baseline; 
-                width: 100%;
-            """
-
-            with col1:
-                st.markdown(f"""
-                    <div style="{box_base} background-color: #e6f3ff;">
-                        <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">推奨サイズ</p>
-                        <div style="{value_container}">
-                            <span style="font-size: 38px; color: #0d47a1; font-weight: bold; line-height: 1;">{size}</span>
-                            <span style="font-size: 18px; color: #0d47a1; margin-left: 3px;">cm</span>
+           -size: 18px; color: #0d47a1; margin-left: 3px;">cm</span>
                         </div>
                     </div>
                 """, unsafe_allow_html=True)
@@ -111,7 +75,9 @@ if check_password():
                 st.markdown(f"""
                     <div style="{box_base} background-color: #f0f8ff;">
                         <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">ワイズ</p>
-                        <h1 style="margin: 5px 0 0 0; font-size: 40px; color: #0d47a1; line-height: 1; text-align: center; width: 100%;">{wise}</h1>
+                        <div style="{value_container}">
+                            <span style="font-size: 40px; color: #0d47a1; font-weight: bold; line-height: 1;">{wise}</span>
+                        </div>
                     </div>
                 """, unsafe_allow_html=True)
             
@@ -119,6 +85,7 @@ if check_password():
             st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
 
     st.caption("※JIS規格に基づいた目安です。実際のフィット感は靴の木型により異なります。")
+
 
 
 
