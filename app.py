@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-# 簡易パスワード設定
+# 簡易パスワード設定（ここを書き換えてください）
 PASSWORD = "CM32A"
 
 def check_password():
@@ -25,41 +25,30 @@ if check_password():
     st.title("🥿 サイズ・ワイズ判定ツール")
 
     # データの読み込み
-try:
-            # まずは標準のUTF-8で試す
-            df = pd.read_csv("data.csv")
-        except:
-            # 失敗したらExcel標準のShift-JIS(CP932)で試す
-            df = pd.read_csv("data.csv", encoding="cp932")
-        
-        # 入力エリア
-        st.sidebar.header("入力項目")
-        gender = st.sidebar.selectbox("性別", ["男性", "女性"])
-        foot_length = st.sidebar.number_input("足長 (mm)", value=250.0, step=1.0)
-        foot_circ = st.sidebar.number_input("足囲 (mm)", value=240.0, step=1.0)
+    try:
+        # UTF-8で読み込みを試行
+        df = pd.read_csv("data.csv")
+    except:
+        # 失敗したらShift-JIS(CP932)で読み込みを試行
+        df = pd.read_csv("data.csv", encoding="cp932")
 
-        # 判定ロジック
-        result = df[
-            (df['性別'] == gender) &
-            (df['足長最小'] <= foot_length) & (df['足長最大'] >= foot_length) &
-            (df['足囲最小'] <= foot_circ) & (df['足囲最大'] >= foot_circ)
-        ]
+    # 入力エリア
+    st.sidebar.header("入力項目")
+    gender = st.sidebar.selectbox("性別", ["男性", "女性"])
+    foot_length = st.sidebar.number_input("足長 (mm)", value=230.0, step=1.0)
+    foot_circ = st.sidebar.number_input("足囲 (mm)", value=220.0, step=1.0)
 
-        if not result.empty:
-            st.success("判定結果")
-            col1, col2 = st.columns(2)
-            col1.metric("判定サイズ", f"{result.iloc[0]['サイズ']} cm")
-            col2.metric("足囲区分 (ワイズ)", result.iloc[0]['足囲区分'])
-        else:
-            st.warning("該当するサイズ・ワイズが見つかりませんでした。数値を再確認してください。")
+    # 判定ロジック
+    result = df[
+        (df['性別'] == gender) &
+        (df['足長最小'] <= foot_length) & (df['足長最大'] >= foot_length) &
+        (df['足囲最小'] <= foot_circ) & (df['足囲最大'] >= foot_circ)
+    ]
 
-    except Exception as e:
-
-        st.error(f"エラーが発生しました: {e}")
-
-
-
-
-
-
-
+    if not result.empty:
+        st.success("判定結果")
+        col1, col2 = st.columns(2)
+        col1.metric("判定サイズ", f"{result.iloc[0]['サイズ']} cm")
+        col2.metric("足囲区分 (ワイズ)", result.iloc[0]['足囲区分'])
+    else:
+        st.warning("該当するサイズが見つかりませんでした。数値を再確認してください。")
