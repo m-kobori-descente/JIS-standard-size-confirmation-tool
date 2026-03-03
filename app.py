@@ -25,12 +25,12 @@ if check_password():
     st.title("🥿 サイズ・ワイズ判定ツール")
 
     # データの読み込み
-    try:
-        # まずは標準のUTF-8で試す
-        df = pd.read_csv("data.csv")
-except:
-        # 失敗したらExcel標準のShift-JIS(CP932)で試す
-        df = pd.read_csv("data.csv", encoding="cp932")
+try:
+            # まずは標準のUTF-8で試す
+            df = pd.read_csv("data.csv")
+        except:
+            # 失敗したらExcel標準のShift-JIS(CP932)で試す
+            df = pd.read_csv("data.csv", encoding="cp932")
         
         # 入力エリア
         st.sidebar.header("入力項目")
@@ -56,6 +56,7 @@ except:
     except Exception as e:
 
         st.error(f"エラーが発生しました: {e}")
+
 
 
 
