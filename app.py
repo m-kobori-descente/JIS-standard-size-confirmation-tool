@@ -95,7 +95,7 @@ if check_password():
                 st.markdown(f"""
                     <div style="{box_style} background-color: #e6f3ff;">
                         <div style="{inner_style}">
-                            <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">推奨サイズ</p>
+                            <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">あなたのサイズ</p>
                             <h1 style="margin: 2px 0 0 0; font-size: 38px; color: #0d47a1; line-height: 1.1;">{size}<span style="font-size: 18px;">cm</span></h1>
                         </div>
                     </div>
@@ -115,6 +115,7 @@ if check_password():
             st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
 
     st.caption("※JIS規格に基づいた目安です。実際のフィット感は靴の木型により異なります。")
+
 
 
 
