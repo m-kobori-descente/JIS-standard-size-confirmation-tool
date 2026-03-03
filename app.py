@@ -69,46 +69,46 @@ if check_password():
            # 5. 結果を横並びに表示
             st.write("### 判定結果")
             
-            # gap="small" を指定して、カラム間の余計な隙間を最小限にします
-            col1, col2 = st.columns(2, gap="small")
+            # gapをあえて無しにし、マージンで制御することでズレを防ぎます
+            col1, col2 = st.columns(2, gap="none")
             
-            # ボックス全体のスタイル（余計なパディングをリセットし、中身を絶対中央へ）
-            box_style = """
+            # ボックス全体の共通スタイル
+            # flex-grow: 1 を追加して、親の幅を均等に使うよう強制します
+            box_base = """
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 text-align: center;
                 height: 140px;
-                width: 100%;
+                width: 95%; /* カラム内で少し余裕を持たせる */
                 margin: 0 auto 10px auto;
                 border-radius: 15px;
                 border: 2px solid #1e88e5;
                 box-shadow: 0 2px 4px rgba(0,0,0,0.05);
                 box-sizing: border-box;
-                overflow: hidden;
             """
             
-            # 文字を包むコンテナ（これを幅100%にすることで、text-align: centerを確実に効かせます）
-            inner_container = "width: 100%; padding: 0; margin: 0; text-align: center;"
+            # ラベルと数値のスタイルを分離し、より中央に集まるように調整
+            label_style = "margin: 0; padding: 0; font-size: 14px; color: #1e88e5; font-weight: bold; width: 100%;"
+            # line-heightを調整して上下の中央感も強化
+            value_style = "margin: 0; padding: 0; font-size: 38px; color: #0d47a1; line-height: 1; width: 100%; display: flex; justify-content: center; align-items: baseline;"
 
             with col1:
                 st.markdown(f"""
-                    <div style="{box_style} background-color: #e6f3ff;">
-                        <div style="{inner_container}">
-                            <p style="margin: 0; padding: 0; font-size: 14px; color: #1e88e5; font-weight: bold; width: 100%;">推奨サイズ</p>
-                            <h1 style="margin: 5px 0 0 0; padding: 0; font-size: 38px; color: #0d47a1; line-height: 1; width: 100%;">{size}<span style="font-size: 18px;">cm</span></h1>
+                    <div style="{box_base} background-color: #e6f3ff;">
+                        <p style="{label_style}">推奨サイズ</p>
+                        <div style="{value_style}">
+                            <span>{size}</span><span style="font-size: 18px; margin-left: 2px;">cm</span>
                         </div>
                     </div>
                 """, unsafe_allow_html=True)
 
             with col2:
                 st.markdown(f"""
-                    <div style="{box_style} background-color: #f0f8ff;">
-                        <div style="{inner_container}">
-                            <p style="margin: 0; padding: 0; font-size: 14px; color: #1e88e5; font-weight: bold; width: 100%;">ワイズ</p>
-                            <h1 style="margin: 5px 0 0 0; padding: 0; font-size: 38px; color: #0d47a1; line-height: 1; width: 100%;">{wise}</h1>
-                        </div>
+                    <div style="{box_base} background-color: #f0f8ff;">
+                        <p style="{label_style}">ワイズ</p>
+                        <h1 style="margin: 0; font-size: 40px; color: #0d47a1; line-height: 1;">{wise}</h1>
                     </div>
                 """, unsafe_allow_html=True)
             
@@ -116,6 +116,7 @@ if check_password():
             st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
 
     st.caption("※JIS規格に基づいた目安です。実際のフィット感は靴の木型により異なります。")
+
 
 
 
