@@ -6,7 +6,7 @@ import time
 st.set_page_config(page_title="サイズ判定ツール", layout="centered")
 
 # 簡易パスワード設定（ここを自身のパスワードに！）
-PASSWORD = "your-password-here"
+PASSWORD = "CM32A"
 
 def check_password():
     if "password_correct" not in st.session_state:
@@ -81,4 +81,14 @@ if check_password():
 
             with col2:
                 st.markdown(f"""
-                    <div style="text-align: center; background
+                    <div style="text-align: center; background-color: #f0f8ff; padding: 20px; border-radius: 15px; border: 2px solid #1e88e5;">
+                        <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">ワイズ</p>
+                        <h1 style="margin: 5px 0; font-size: 40px; color: #0d47a1;">{wise}</h1>
+                    </div>
+                """, unsafe_allow_html=True)
+            
+            st.balloons() # 成功のバルーン
+        else:
+            st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
+
+    st.caption("※JIS規格に基づいた目安です。実際のフィット感は靴の木型により異なります。")
