@@ -1,11 +1,12 @@
 import streamlit as st
 import pandas as pd
+import time
 
-# 1. ページの設定（PCでもスマホでも中央に寄せて見やすくする）
+# 1. ページの設定（中央寄せでプロっぽく）
 st.set_page_config(page_title="サイズ判定ツール", layout="centered")
 
-# 簡易パスワード設定
-PASSWORD = "CM32A"
+# 簡易パスワード設定（ここを自身のパスワードに！）
+PASSWORD = "your-password-here"
 
 def check_password():
     if "password_correct" not in st.session_state:
@@ -24,8 +25,8 @@ def check_password():
 
 if check_password():
     # 2. タイトル表示
-    st.title("👣 サイズ・ワイズ判定 👟")
-    st.write("測定値を入力すると、JIS規格に基づいた推奨サイズを表示します。")
+    st.title("🥿 サイズ・ワイズ判定")
+    st.write("測定値を入力して「結果を見る」を押してください。")
 
     # データの読み込み
     try:
@@ -33,18 +34,20 @@ if check_password():
     except:
         df = pd.read_csv("data.csv", encoding="cp932")
 
-# 3. 入力フォームの作成
+    # 3. 入力フォーム（ボタンを押すまで判定しない）
     with st.form("input_form"):
         st.subheader("📏 測定値を入力")
         
         gender = st.radio("性別", ["男性", "女性"], horizontal=True)
+        
+        # 数値入力（整数表示）
         foot_length = st.number_input("足長 (mm)", min_value=100, max_value=350, value=235, step=1, format="%d")
         foot_circ = st.number_input("足囲 (mm)", min_value=100, max_value=350, value=225, step=1, format="%d")
         
-        # フォーム専用の送信ボタン
+        # 送信ボタン
         submitted = st.form_submit_button("結果を見る")
 
-    # 4. ボタンが押されたときだけ判定を実行
+    # 4. ボタンが押された時の処理
     if submitted:
         # 判定ロジック
         result = df[
@@ -55,34 +58,27 @@ if check_password():
 
         st.divider()
 
-   # 5. 結果表示（横並びデザイン）
+        if not result.empty:
+            size = result.iloc[0]['サイズ']
+            wise = result.iloc[0]['足囲区分']
+            
+            # 演出：一瞬だけ「判定中...」と出す
+            with st.spinner('判定中...'):
+                time.sleep(0.5) 
+
             st.write("### 判定結果")
             
-            # 2つのカラム（列）を作成
+            # 5. 結果を横並びに表示
             col1, col2 = st.columns(2)
             
             with col1:
                 st.markdown(f"""
                     <div style="text-align: center; background-color: #e6f3ff; padding: 20px; border-radius: 15px; border: 2px solid #1e88e5;">
-                        <p style="margin: 0; font-size: 14px; color: #1e88e5;">推奨サイズ</p>
+                        <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">推奨サイズ</p>
                         <h1 style="margin: 5px 0; font-size: 40px; color: #0d47a1;">{size}<span style="font-size: 18px;">cm</span></h1>
                     </div>
                 """, unsafe_allow_html=True)
 
             with col2:
                 st.markdown(f"""
-                    <div style="text-align: center; background-color: #f0f8ff; padding: 20px; border-radius: 15px; border: 2px solid #1e88e5;">
-                        <p style="margin: 0; font-size: 14px; color: #1e88e5;">ワイズ</p>
-                        <h1 style="margin: 5px 0; font-size: 40px; color: #0d47a1;">{wise}</h1>
-                    </div>
-                """, unsafe_allow_html=True)
-            
-            st.balloons()
-        else:
-            st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
-    st.caption("※この判定はJIS規格に基づいた目安です。靴の木型によってフィット感は異なります。")
-
-
-
-
-
+                    <div style="text-align: center; background
