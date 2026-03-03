@@ -1,17 +1,18 @@
 import streamlit as st
 import pandas as pd
 
-# 簡易パスワード設定（ここを書き換えてください）
-PASSWORD = "CM32A"
+# 1. ページの設定（PCでもスマホでも中央に寄せて見やすくする）
+st.set_page_config(page_title="サイズ判定ツール", layout="centered")
+
+# 簡易パスワード設定
+PASSWORD = "your-password-here"
 
 def check_password():
     if "password_correct" not in st.session_state:
         st.session_state["password_correct"] = False
-    
     if st.session_state["password_correct"]:
         return True
-
-    st.title("サイズ判定ツール ログイン")
+    st.title("🔐 ログイン")
     pwd = st.text_input("パスワードを入力してください", type="password")
     if st.button("ログイン"):
         if pwd == PASSWORD:
@@ -22,37 +23,51 @@ def check_password():
     return False
 
 if check_password():
-    st.title("👟 サイズ・ワイズ判定ツール 👣")
+    # 2. タイトル表示
+    st.title("👣 サイズ・ワイズ判定 👟")
+    st.write("測定値を入力すると、JIS規格に基づいた推奨サイズを表示します。")
 
     # データの読み込み
     try:
-        # UTF-8で読み込みを試行
         df = pd.read_csv("data.csv")
     except:
-        # 失敗したらShift-JIS(CP932)で読み込みを試行
         df = pd.read_csv("data.csv", encoding="cp932")
 
-    # 入力エリア
-    st.sidebar.header("入力項目")
-    gender = st.sidebar.selectbox("性別", ["男性", "女性"])
-    foot_length = st.sidebar.number_input("足長 (mm)", value=230, step=1, format="%d")
-    foot_circ = st.sidebar.number_input("足囲 (mm)", value=220, step=1, format="%d")
+    # 3. 入力エリア（メイン画面に配置）
+    with st.container():
+        st.subheader("📏 測定値を入力")
+        
+        # 性別をボタン形式で選択（スマホで押しやすい）
+        gender = st.radio("性別", ["男性", "女性"], horizontal=True)
+        
+        # 数値入力（スライダーと数値入力を併用できる形式）
+        foot_length = st.number_input("足長 (mm)", min_value=100, max_value=350, value=235, step=1, format="%d")
+        foot_circ = st.number_input("足囲 (mm)", min_value=100, max_value=350, value=225, step=1, format="%d")
 
-    # 判定ロジック
+    st.divider() # 区切り線
+
+    # 4. 判定ロジック
     result = df[
         (df['性別'] == gender) &
         (df['足長最小'] <= foot_length) & (df['足長最大'] >= foot_length) &
         (df['足囲最小'] <= foot_circ) & (df['足囲最大'] >= foot_circ)
     ]
 
+    # 5. 結果表示（デカ文字デザイン）
     if not result.empty:
-        st.success("判定結果")
-        col1, col2 = st.columns(2)
-        col1.metric("あなたのサイズは", f"{result.iloc[0]['サイズ']} cm")
-        col2.metric("ワイズは", result.iloc[0]['足囲区分'])
+        size = result.iloc[0]['size'] if 'size' in result.columns else result.iloc[0]['サイズ']
+        wise = result.iloc[0]['foot_width'] if 'foot_width' in result.columns else result.iloc[0]['足囲区分']
+        
+        st.markdown(f"""
+            <div style="text-align: center; background-color: #e6f3ff; padding: 30px; border-radius: 15px; border: 2px solid #1e88e5; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <p style="margin: 0; font-size: 18px; color: #1e88e5; font-weight: bold;">あなたの推奨サイズ</p>
+                <h1 style="margin: 10px 0; font-size: 64px; color: #0d47a1; line-height: 1;">{size}<span style="font-size: 28px;">cm</span></h1>
+                <h2 style="margin: 0; font-size: 42px; color: #1565c0;">ワイズ: {wise}</h2>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        st.balloons() # 判定成功時に紙吹雪を飛ばす演出
     else:
-        st.warning("該当するサイズが見つかりませんでした。数値を再確認してください。")
+        st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
 
-
-
-
+    st.caption("※この判定はJIS規格に基づいた目安です。靴の木型によってフィット感は異なります。")
