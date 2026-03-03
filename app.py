@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # 簡易パスワード設定
-PASSWORD = "011188"
+PASSWORD = "CM32A"
 
 def check_password():
     if "password_correct" not in st.session_state:
@@ -50,4 +50,5 @@ if check_password():
             st.warning("該当するサイズ・ワイズが見つかりませんでした。数値を再確認してください。")
 
     except Exception as e:
+
         st.error(f"エラーが発生しました: {e}")
