@@ -49,12 +49,18 @@ if check_password():
 
     # 4. ボタンが押された時の処理
     if submitted:
+        # 画面を結果位置まで自動スクロールさせるための目印
+        st.empty()
+
         # 判定ロジック
         result = df[
             (df['性別'] == gender) &
             (df['足長最小'] <= foot_length) & (df['足長最大'] >= foot_length) &
             (df['足囲最小'] <= foot_circ) & (df['足囲最大'] >= foot_circ)
         ]
+        
+        # 結果表示の直前にこの一行を入れると、ここが画面のトップに来るよう動きます
+        st.write('<div id="result"></div>', unsafe_allow_html=True)
 
         st.divider()
 
@@ -118,6 +124,7 @@ if check_password():
             st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
 
     st.caption("※JIS規格に基づいた目安です。実際のフィット感は靴の木型により異なります。")
+
 
 
 
