@@ -25,7 +25,7 @@ def check_password():
 
 if check_password():
     # 2. タイトル表示
-    st.title("🥿 サイズ・ワイズ判定")
+    st.title("JISサイズ・ワイズ判定 👟")
     st.write("測定値を入力して「結果を見る」を押してください。")
 
     # データの読み込み
@@ -118,6 +118,7 @@ if check_password():
             st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
 
     st.caption("※JIS規格に基づいた目安です。実際のフィット感は靴の木型により異なります。")
+
 
 
 
