@@ -6,7 +6,7 @@ import time
 st.set_page_config(page_title="サイズ判定ツール", layout="centered")
 
 # 簡易パスワード設定（ご自身のものに書き換えてください）
-PASSWORD = "your-password-here"
+PASSWORD = "CM32A"
 
 def check_password():
     if "password_correct" not in st.session_state:
