@@ -97,11 +97,16 @@ if check_password():
                         </div>
                     """, unsafe_allow_html=True)
                 
-                # --- 追加したアドバイス文言 ---
-                st.info("💡 **普段履きの場合、「判定＋0.5～1cmの靴」がおすすめです**")
+                # --- カスタマイズした大きなアドバイス文言 ---
+                st.markdown(f"""
+                    <div style="background-color: #fff9c4; padding: 15px; border-radius: 10px; border-left: 8px solid #fbc02d; margin: 15px 0;">
+                        <p style="margin: 0; font-size: 22px; color: #333; font-weight: bold; line-height: 1.4;">
+                            💡 普段履きの場合、<br>「判定＋0.5～1cmの靴」がおすすめです
+                        </p>
+                    </div>
+                """, unsafe_allow_html=True)
                 
                 st.balloons()
-                st.success("上記の結果が算出されました！")
                 st.write("---") 
             else:
                 st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
