@@ -2,11 +2,11 @@ import streamlit as st
 import pandas as pd
 import time
 
-# 1. ページの設定（中央寄せ）
+# 1. ページの設定
 st.set_page_config(page_title="サイズ判定ツール", layout="centered")
 
-# 簡易パスワード設定
-PASSWORD = "CM32A"
+# 簡易パスワード設定（ご自身のものに書き換えてください）
+PASSWORD = "your-password-here"
 
 def check_password():
     if "password_correct" not in st.session_state:
@@ -24,7 +24,7 @@ def check_password():
     return False
 
 if check_password():
-    st.title("JISサイズ・ワイズ判定👟")
+    st.title("👟JISサイズ・ワイズ判定👣")
 
     # データの読み込み
     try:
@@ -32,8 +32,7 @@ if check_password():
     except:
         df = pd.read_csv("data.csv", encoding="cp932")
 
-    # --- 1. 判定用の空のコンテナを先に用意しておく ---
-    # ここに結果が差し込まれるので、ボタンより上に結果が出ます
+    # --- 1. 判定用の空のコンテナを先に用意（結果を上に表示するため） ---
     result_container = st.container()
 
     # --- 2. 入力フォーム（下側に配置） ---
@@ -57,7 +56,6 @@ if check_password():
             (df['足囲最小'] <= foot_circ) & (df['足囲最大'] >= foot_circ)
         ]
 
-        # 用意しておいた上のコンテナの中に結果を書き込む
         with result_container:
             st.divider()
             if not result.empty:
@@ -79,15 +77,33 @@ if check_password():
                 val_style = "display: flex; justify-content: center; align-items: baseline; width: 100%;"
 
                 with col1:
-                    st.markdown(f'<div style="{box_base} background-color: #e6f3ff;"><p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">推奨サイズ</p><div style="{val_style}"><span style="font-size: 38px; color: #0d47a1; font-weight: bold; line-height: 1;">{size}</span><span style="font-size: 18px; color: #0d47a1; margin-left: 3px;">cm</span></div></div>', unsafe_allow_html=True)
+                    st.markdown(f"""
+                        <div style="{box_base} background-color: #e6f3ff;">
+                            <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">あなたのサイズ</p>
+                            <div style="{val_style}">
+                                <span style="font-size: 38px; color: #0d47a1; font-weight: bold; line-height: 1;">{size}</span>
+                                <span style="font-size: 18px; color: #0d47a1; margin-left: 3px;">cm</span>
+                            </div>
+                        </div>
+                    """, unsafe_allow_html=True)
+
                 with col2:
-                    st.markdown(f'<div style="{box_base} background-color: #f0f8ff;"><p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">ワイズ</p><div style="{val_style}"><span style="font-size: 40px; color: #0d47a1; font-weight: bold; line-height: 1;">{wise}</span></div></div>', unsafe_allow_html=True)
+                    st.markdown(f"""
+                        <div style="{box_base} background-color: #f0f8ff;">
+                            <p style="margin: 0; font-size: 14px; color: #1e88e5; font-weight: bold;">ワイズ</p>
+                            <div style="{val_style}">
+                                <span style="font-size: 40px; color: #0d47a1; font-weight: bold; line-height: 1;">{wise}</span>
+                            </div>
+                        </div>
+                    """, unsafe_allow_html=True)
+                
+                # --- 追加したアドバイス文言 ---
+                st.info("💡 **普段履きの場合、「判定＋0.5～1cmの靴」がおすすめです**")
                 
                 st.balloons()
                 st.success("上記の結果が算出されました！")
-                st.write("---") # 結果と入力欄を分ける線
+                st.write("---") 
             else:
-                st.warning("⚠️ 該当するサイズが見つかりませんでした。")
+                st.warning("⚠️ 該当するサイズが見つかりませんでした。入力値を確認してください。")
 
     st.caption("※JIS規格に基づいた目安です。実際のフィット感は靴の木型により異なります。")
-
